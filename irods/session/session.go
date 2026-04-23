@@ -240,15 +240,6 @@ func (sess *IRODSSession) endTransaction(conn *connection.IRODSConnection) error
 	return errors.Errorf("failed to commit/rollback transaction")
 }
 
-func (sess *IRODSSession) createConnectionFromPool(new bool, noConnect bool, wait bool) (*connection.IRODSConnection, error) {
-	conn, _, err := sess.connectionPool.Get(new, noConnect, wait)
-	if err != nil {
-		return nil, err
-	}
-
-	return conn, nil
-}
-
 func (sess *IRODSSession) acquireConnection(new bool, allowShared bool, noConnect bool, wait bool) (*connection.IRODSConnection, error) {
 	logger := log.WithFields(log.Fields{
 		"new":          new,
@@ -261,7 +252,7 @@ func (sess *IRODSSession) acquireConnection(new bool, allowShared bool, noConnec
 	}
 
 	// try to get it from the pool
-	conn, err := sess.createConnectionFromPool(new, noConnect, wait)
+	conn, _, err := sess.connectionPool.Get(new, noConnect, wait)
 	if err != nil {
 		if !types.IsConnectionPoolFullError(err) {
 			// fail
@@ -328,7 +319,6 @@ func (sess *IRODSSession) acquireConnection(new bool, allowShared bool, noConnec
 // AcquireConnection acquires an idle connection
 func (sess *IRODSSession) AcquireConnection(allowShared bool) (*connection.IRODSConnection, error) {
 	sess.mutex.Lock()
-	defer sess.mutex.Unlock()
 
 	// return last error
 	pendingErr := sess.getPendingError()
@@ -336,9 +326,47 @@ func (sess *IRODSSession) AcquireConnection(allowShared bool) (*connection.IRODS
 		return nil, errors.Wrapf(pendingErr, "failed to get a connection from the pool because pending error is found")
 	}
 
-	conn, err := sess.acquireConnection(false, allowShared, false, sess.config.WaitConnection)
+	// try to get a connection from the pool without waiting
+	conn, err := sess.acquireConnection(false, allowShared, false, false)
+	if err == nil {
+		// got a connection from the pool, return it
+		sess.mutex.Unlock()
+		return conn, err
+	}
+
+	// we don't need to wait, other type of error
+	if !types.IsConnectionPoolFullError(err) || !sess.config.WaitConnection || allowShared {
+		sess.mutex.Unlock()
+		return nil, err
+	}
+
+	// wait for a connection to be available
+	// ReturnConnection will wakeup sess.mutex
+	sess.mutex.Unlock()
+
+	conn, _, err = sess.connectionPool.Get(false, false, true)
 	if err != nil {
 		return nil, err
+	}
+
+	// update sharedConnections
+	sess.mutex.Lock()
+	defer sess.mutex.Unlock()
+
+	// put to share
+	if shares, ok := sess.sharedConnections[conn]; ok {
+		shares++
+		sess.sharedConnections[conn] = shares
+	} else {
+		sess.sharedConnections[conn] = 1
+	}
+
+	if !sess.supportParallelUploadSet {
+		if conn.IsConnected() {
+			// check parallel upload
+			sess.supportParallelUpload = conn.SupportParallelUpload()
+			sess.supportParallelUploadSet = true
+		}
 	}
 
 	return conn, nil
@@ -355,9 +383,47 @@ func (sess *IRODSSession) AcquireNewConnection(allowShared bool) (*connection.IR
 		return nil, errors.Wrapf(pendingErr, "failed to get a connection from the pool because pending error is found")
 	}
 
-	conn, err := sess.acquireConnection(true, allowShared, false, sess.config.WaitConnection)
+	// try to get a connection from the pool without waiting
+	conn, err := sess.acquireConnection(true, allowShared, false, false)
+	if err == nil {
+		// got a connection from the pool, return it
+		sess.mutex.Unlock()
+		return conn, err
+	}
+
+	// we don't need to wait, other type of error
+	if !types.IsConnectionPoolFullError(err) || !sess.config.WaitConnection || allowShared {
+		sess.mutex.Unlock()
+		return nil, err
+	}
+
+	// wait for a connection to be available
+	// ReturnConnection will wakeup sess.mutex
+	sess.mutex.Unlock()
+
+	conn, _, err = sess.connectionPool.Get(true, false, true)
 	if err != nil {
 		return nil, err
+	}
+
+	// update sharedConnections
+	sess.mutex.Lock()
+	defer sess.mutex.Unlock()
+
+	// put to share
+	if shares, ok := sess.sharedConnections[conn]; ok {
+		shares++
+		sess.sharedConnections[conn] = shares
+	} else {
+		sess.sharedConnections[conn] = 1
+	}
+
+	if !sess.supportParallelUploadSet {
+		if conn.IsConnected() {
+			// check parallel upload
+			sess.supportParallelUpload = conn.SupportParallelUpload()
+			sess.supportParallelUploadSet = true
+		}
 	}
 
 	return conn, nil
