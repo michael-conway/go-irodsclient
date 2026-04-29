@@ -13,6 +13,39 @@ func (fs *FileSystem) ClearCache() {
 	fs.cache.ClearDirCache()
 }
 
+// InvalidateCacheForPath invalidates cache for the given path (general purpose)
+func (fs *FileSystem) InvalidateCacheForPath(path string) {
+	entry := fs.cache.GetEntryCache(path)
+
+	// we need to expunge all negative entry caches under irodsDestPath
+	// since all sub-directories/files are also moved
+	fs.cache.RemoveAllNegativeEntryCacheForPath(path)
+
+	fs.cache.RemoveNegativeEntryCache(path)
+	fs.cache.RemoveDirEntryCache(path, false)
+	fs.cache.RemoveMetadataCache(path)
+
+	if entry != nil {
+		if entry.Type == DirectoryEntry {
+			dirEntries := fs.cache.GetDirCache(path)
+			for _, dirEntry := range dirEntries {
+				// do it recursively
+				fs.invalidateCacheForRemoveInternal(dirEntry, true)
+			}
+		}
+	}
+
+	fs.cache.RemoveDirCache(path)
+	fs.cache.RemoveAclCache(path)
+
+	// parent dir's entry also changes
+	fs.cache.RemoveParentDirEntryCache(path, false)
+
+	// parent dir's dir entry also changes
+	parentPath := util.GetIRODSPathDirname(path)
+	fs.cache.RemoveDirCache(parentPath)
+}
+
 // AddCacheEventHandler adds cache event handler
 func (fs *FileSystem) AddCacheEventHandler(handler FilesystemCacheEventHandler) string {
 	return fs.cacheEventHandlerMap.AddEventHandler(handler)

@@ -245,6 +245,8 @@ func (server *IRODSServer) GetFileSystem() (*irods_fs.FileSystem, error) {
 		return nil, err
 	}
 	fsConfig := server.GetFileSystemConfig()
+	// fsConfig.Cache.NoCache = true // disable cache for testing
+
 	return irods_fs.NewFileSystem(account, fsConfig)
 }
 
