@@ -34,7 +34,7 @@ func GetCollectionAccessInheritance(conn *connection.IRODSConnection, path strin
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_INHERITANCE, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_INHERITANCE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, path)
 
@@ -242,10 +242,10 @@ func ListDataObjectAccesses(conn *connection.IRODSConnection, dataObjPath string
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
+		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, path.Dir(dataObjPath))
 		query.AddEqualStringCondition(common.ICAT_COLUMN_DATA_NAME, path.Base(dataObjPath))
@@ -355,10 +355,10 @@ func ListDataObjectAccessesWithoutCollection(conn *connection.IRODSConnection, d
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
+		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, path.Dir(dataObjPath))
 		query.AddEqualStringCondition(common.ICAT_COLUMN_DATA_NAME, path.Base(dataObjPath))
@@ -491,11 +491,11 @@ func ListAccessesForSubCollectionsOld(conn *connection.IRODSConnection, collPath
 		// this omits collections without data objects in them due to a bug
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_ACCESS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_ACCESS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_PARENT_NAME, collPath)
 
@@ -607,11 +607,11 @@ func ListAccessesForDataObjectsInCollection(conn *connection.IRODSConnection, co
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_DATA_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
+		query.AddSelect(common.ICAT_COLUMN_DATA_NAME)
+		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath)
 
@@ -722,11 +722,11 @@ func ListAccessesForDataObjectsWithoutCollection(conn *connection.IRODSConnectio
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_DATA_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
+		query.AddSelect(common.ICAT_COLUMN_DATA_NAME)
+		query.AddSelect(common.ICAT_COLUMN_DATA_ACCESS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath)
 

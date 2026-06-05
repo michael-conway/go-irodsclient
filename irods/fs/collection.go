@@ -56,11 +56,11 @@ func GetCollection(conn *connection.IRODSConnection, path string) (*types.IRODSC
 
 	query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, 0, 0, 0)
 	query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-	query.AddSelect(common.ICAT_COLUMN_COLL_ID, 1)
-	query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME, 1)
-	query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME, 1)
+	query.AddSelect(common.ICAT_COLUMN_COLL_ID)
+	query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+	query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME)
+	query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME)
+	query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME)
 
 	query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, path)
 
@@ -179,12 +179,12 @@ func ListCollectionMeta(conn *connection.IRODSConnection, path string) ([]*types
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_VALUE, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_UNITS, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_COLL_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_ID)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_NAME)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_VALUE)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_ATTR_UNITS)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_META_COLL_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, path)
 
@@ -310,11 +310,11 @@ func ListSubCollections(conn *connection.IRODSConnection, path string) ([]*types
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_ID)
+		query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_PARENT_NAME, path)
 
@@ -441,11 +441,11 @@ func SearchCollectionsUnixWildcard(conn *connection.IRODSConnection, pathUnixWil
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_ID)
+		query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME)
 
 		query.AddLikeStringCondition(common.ICAT_COLUMN_COLL_NAME, pathSqlWildcard)
 
@@ -768,11 +768,11 @@ func SearchCollectionsByMeta(conn *connection.IRODSConnection, metaName string, 
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_ID)
+		query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_META_COLL_ATTR_NAME, metaName)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_META_COLL_ATTR_VALUE, metaValue)
@@ -892,11 +892,11 @@ func SearchCollectionsByMetaWildcard(conn *connection.IRODSConnection, metaName 
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
 		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
-		query.AddSelect(common.ICAT_COLUMN_COLL_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_ID)
+		query.AddSelect(common.ICAT_COLUMN_COLL_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_OWNER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_COLL_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_META_COLL_ATTR_NAME, metaName)
 		query.AddLikeStringCondition(common.ICAT_COLUMN_META_COLL_ATTR_VALUE, metaValue)
@@ -998,4 +998,193 @@ func SearchCollectionsByMetaWildcard(conn *connection.IRODSConnection, metaName 
 	}
 
 	return collections, nil
+}
+
+// GetCollectionStat returns statistics for the given collection
+func GetCollectionStat(conn *connection.IRODSConnection, collPath string, recurse bool) (*types.IRODSCollectionStat, error) {
+	if conn == nil || !conn.IsConnected() {
+		return nil, errors.Errorf("connection is nil or disconnected")
+	}
+
+	metrics := conn.GetMetrics()
+	if metrics != nil {
+		metrics.IncreaseCounterForList(1)
+	}
+
+	// lock the connection
+	conn.Lock()
+	defer conn.Unlock()
+
+	stat := types.IRODSCollectionStat{
+		TotalSize:       0,
+		DataObjectCount: 0,
+	}
+
+	// first run for root dir
+	continueQuery := true
+	continueIndex := 0
+	for continueQuery {
+		// data object
+		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
+		query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
+		query.AddSelectWithCount(common.ICAT_COLUMN_DATA_NAME)
+		query.AddSelectWithSum(common.ICAT_COLUMN_DATA_SIZE)
+
+		query.AddEqualStringCondition(common.ICAT_COLUMN_DATA_REPL_NUM, "0")
+		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath)
+
+		// query.AddLikeStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath+"/")
+
+		queryResult := message.IRODSMessageQueryResponse{}
+		err := conn.Request(query, &queryResult, nil, conn.GetLongResponseOperationTimeout())
+		if err != nil {
+			if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
+				// empty
+				break
+			}
+
+			return nil, errors.Wrapf(err, "failed to receive a data object query result message")
+		}
+
+		err = queryResult.CheckError()
+		if err != nil {
+			if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
+				// empty
+				break
+			}
+
+			return nil, errors.Wrapf(err, "received data object query error")
+		}
+
+		if queryResult.RowCount == 0 {
+			break
+		}
+
+		if queryResult.AttributeCount > len(queryResult.SQLResult) {
+			return nil, errors.Errorf("failed to receive data object attributes - requires %d, but received %d attributes", queryResult.AttributeCount, len(queryResult.SQLResult))
+		}
+
+		for attr := 0; attr < queryResult.AttributeCount; attr++ {
+			sqlResult := queryResult.SQLResult[attr]
+			if len(sqlResult.Values) != queryResult.RowCount {
+				return nil, errors.Errorf("failed to receive data object rows - requires %d, but received %d attributes", queryResult.RowCount, len(sqlResult.Values))
+			}
+
+			for row := 0; row < queryResult.RowCount; row++ {
+				value := sqlResult.Values[row]
+
+				switch sqlResult.AttributeIndex {
+				case int(common.ICAT_COLUMN_DATA_NAME):
+					if len(value) > 0 {
+						objCount, err := strconv.ParseInt(value, 10, 64)
+						if err != nil {
+							return nil, errors.Wrapf(err, "failed to parse data object count %q", value)
+						}
+						stat.DataObjectCount += objCount
+					}
+				case int(common.ICAT_COLUMN_DATA_SIZE):
+					if len(value) > 0 {
+						objSize, err := strconv.ParseInt(value, 10, 64)
+						if err != nil {
+							return nil, errors.Wrapf(err, "failed to parse data object size %q", value)
+						}
+						stat.TotalSize += objSize
+					}
+				default:
+					// ignore
+				}
+			}
+		}
+
+		continueIndex = queryResult.ContinueIndex
+		if continueIndex == 0 {
+			continueQuery = false
+		}
+	}
+
+	if recurse {
+		// second run for sub dir
+		continueQuery := true
+		continueIndex := 0
+		for continueQuery {
+			// data object
+			query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
+			query.AddKeyVal(common.ZONE_KW, conn.GetAccount().ClientZone)
+			query.AddSelectWithCount(common.ICAT_COLUMN_DATA_NAME)
+			query.AddSelectWithSum(common.ICAT_COLUMN_DATA_SIZE)
+
+			query.AddEqualStringCondition(common.ICAT_COLUMN_DATA_REPL_NUM, "0")
+			query.AddLikeStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath+"/%")
+
+			// query.AddLikeStringCondition(common.ICAT_COLUMN_COLL_NAME, collPath+"/")
+
+			queryResult := message.IRODSMessageQueryResponse{}
+			err := conn.Request(query, &queryResult, nil, conn.GetLongResponseOperationTimeout())
+			if err != nil {
+				if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
+					// empty
+					break
+				}
+
+				return nil, errors.Wrapf(err, "failed to receive a data object query result message")
+			}
+
+			err = queryResult.CheckError()
+			if err != nil {
+				if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
+					// empty
+					break
+				}
+
+				return nil, errors.Wrapf(err, "received data object query error")
+			}
+
+			if queryResult.RowCount == 0 {
+				break
+			}
+
+			if queryResult.AttributeCount > len(queryResult.SQLResult) {
+				return nil, errors.Errorf("failed to receive data object attributes - requires %d, but received %d attributes", queryResult.AttributeCount, len(queryResult.SQLResult))
+			}
+
+			for attr := 0; attr < queryResult.AttributeCount; attr++ {
+				sqlResult := queryResult.SQLResult[attr]
+				if len(sqlResult.Values) != queryResult.RowCount {
+					return nil, errors.Errorf("failed to receive data object rows - requires %d, but received %d attributes", queryResult.RowCount, len(sqlResult.Values))
+				}
+
+				for row := 0; row < queryResult.RowCount; row++ {
+					value := sqlResult.Values[row]
+
+					switch sqlResult.AttributeIndex {
+					case int(common.ICAT_COLUMN_DATA_NAME):
+						if len(value) > 0 {
+							objCount, err := strconv.ParseInt(value, 10, 64)
+							if err != nil {
+								return nil, errors.Wrapf(err, "failed to parse data object count %q", value)
+							}
+							stat.DataObjectCount += objCount
+						}
+					case int(common.ICAT_COLUMN_DATA_SIZE):
+						if len(value) > 0 {
+							objSize, err := strconv.ParseInt(value, 10, 64)
+							if err != nil {
+								return nil, errors.Wrapf(err, "failed to parse data object size %q", value)
+							}
+							stat.TotalSize += objSize
+						}
+					default:
+						// ignore
+					}
+				}
+			}
+
+			continueIndex = queryResult.ContinueIndex
+			if continueIndex == 0 {
+				continueQuery = false
+			}
+		}
+	}
+
+	return &stat, nil
 }
