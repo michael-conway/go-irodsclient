@@ -1041,6 +1041,9 @@ func GetCollectionStat(conn *connection.IRODSConnection, collPath string, recurs
 			if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
 				// empty
 				break
+			} else if types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_COLLECTION || types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_FILE {
+				newErr := errors.Join(err, types.NewFileNotFoundError(collPath))
+				return nil, errors.Wrapf(newErr, "failed to find the collection for path %q", collPath)
 			}
 
 			return nil, errors.Wrapf(err, "failed to receive a data object query result message")
@@ -1051,6 +1054,9 @@ func GetCollectionStat(conn *connection.IRODSConnection, collPath string, recurs
 			if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
 				// empty
 				break
+			} else if types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_COLLECTION || types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_FILE {
+				newErr := errors.Join(err, types.NewFileNotFoundError(collPath))
+				return nil, errors.Wrapf(newErr, "failed to find the collection for path %q", collPath)
 			}
 
 			return nil, errors.Wrapf(err, "received data object query error")
@@ -1124,6 +1130,9 @@ func GetCollectionStat(conn *connection.IRODSConnection, collPath string, recurs
 				if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
 					// empty
 					break
+				} else if types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_COLLECTION || types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_FILE {
+					newErr := errors.Join(err, types.NewFileNotFoundError(collPath))
+					return nil, errors.Wrapf(newErr, "failed to find the collection for path %q", collPath)
 				}
 
 				return nil, errors.Wrapf(err, "failed to receive a data object query result message")
@@ -1134,6 +1143,9 @@ func GetCollectionStat(conn *connection.IRODSConnection, collPath string, recurs
 				if types.GetIRODSErrorCode(err) == common.CAT_NO_ROWS_FOUND {
 					// empty
 					break
+				} else if types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_COLLECTION || types.GetIRODSErrorCode(err) == common.CAT_UNKNOWN_FILE {
+					newErr := errors.Join(err, types.NewFileNotFoundError(collPath))
+					return nil, errors.Wrapf(newErr, "failed to find the collection for path %q", collPath)
 				}
 
 				return nil, errors.Wrapf(err, "received data object query error")
