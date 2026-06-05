@@ -64,10 +64,19 @@ func main() {
 		panic(err)
 	}
 
+	dirStat, err := filesystem.GetDirStatistics(inputPath, true)
+	if err != nil {
+		logger.Error(err)
+		panic(err)
+	}
+
 	if len(entries) == 0 {
 		fmt.Printf("Found no entries in the directory %q\n", inputPath)
 	} else {
 		fmt.Printf("DIR: %s\n", inputPath)
+		fmt.Printf("Total size: %d\n", dirStat.TotalSize)
+		fmt.Printf("File count: %d\n", dirStat.FileCount)
+
 		for _, entry := range entries {
 			if entry.Type == fs.FileEntry {
 				fmt.Printf("> FILE:\t%d\t%s\t%d\n", entry.ID, entry.Path, entry.Size)
@@ -75,7 +84,6 @@ func main() {
 				// dir
 				fmt.Printf("> DIRECTORY:\t%d\t%s\n", entry.ID, entry.Path)
 			}
-
 		}
 	}
 }

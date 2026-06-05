@@ -24,10 +24,10 @@ func GetUser(conn *connection.IRODSConnection, username string, zoneName string)
 	defer conn.Unlock()
 
 	query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, 0, 0, 0)
-	query.AddSelect(common.ICAT_COLUMN_USER_ID, 1)
-	query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
-	query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
+	query.AddSelect(common.ICAT_COLUMN_USER_ID)
+	query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+	query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
+	query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
 
 	query.AddEqualStringCondition(common.ICAT_COLUMN_USER_NAME, username)
 	query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)
@@ -122,10 +122,10 @@ func ListUsers(conn *connection.IRODSConnection, zoneName string) ([]*types.IROD
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_USER_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
+		query.AddSelect(common.ICAT_COLUMN_USER_ID)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)
 
@@ -225,10 +225,10 @@ func ListUsersByType(conn *connection.IRODSConnection, userType types.IRODSUserT
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_USER_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
+		query.AddSelect(common.ICAT_COLUMN_USER_ID)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_TYPE, string(userType))
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)
@@ -329,10 +329,10 @@ func ListGroupMembers(conn *connection.IRODSConnection, groupName string, zoneNa
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_USER_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_TYPE, 1)
-		query.AddSelect(common.ICAT_COLUMN_USER_ZONE, 1)
+		query.AddSelect(common.ICAT_COLUMN_USER_ID)
+		query.AddSelect(common.ICAT_COLUMN_USER_NAME)
+		query.AddSelect(common.ICAT_COLUMN_USER_TYPE)
+		query.AddSelect(common.ICAT_COLUMN_USER_ZONE)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_COLL_USER_GROUP_NAME, groupName)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)
@@ -433,7 +433,7 @@ func ListUserGroupNames(conn *connection.IRODSConnection, username string, zoneN
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_COLL_USER_GROUP_NAME, 1)
+		query.AddSelect(common.ICAT_COLUMN_COLL_USER_GROUP_NAME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_NAME, username)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)
@@ -640,8 +640,8 @@ func ListUserResourceQuota(conn *connection.IRODSConnection, username string, zo
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_QUOTA_RESC_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_QUOTA_LIMIT, 1)
+		query.AddSelect(common.ICAT_COLUMN_QUOTA_RESC_NAME)
+		query.AddSelect(common.ICAT_COLUMN_QUOTA_LIMIT)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_QUOTA_USER_NAME, username)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_QUOTA_USER_ZONE, zoneName)
@@ -730,7 +730,7 @@ func GetUserGlobalQuota(conn *connection.IRODSConnection, username string, zoneN
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_QUOTA_LIMIT, 1)
+		query.AddSelect(common.ICAT_COLUMN_QUOTA_LIMIT)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_QUOTA_USER_NAME, username)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_QUOTA_USER_ZONE, zoneName)
@@ -858,12 +858,12 @@ func ListUserMeta(conn *connection.IRODSConnection, username string, zoneName st
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_VALUE, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_UNITS, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_USER_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_ID)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_NAME)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_VALUE)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_ATTR_UNITS)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_META_USER_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_NAME, username)
 		query.AddEqualStringCondition(common.ICAT_COLUMN_USER_ZONE, zoneName)

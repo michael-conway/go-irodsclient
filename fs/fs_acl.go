@@ -224,7 +224,7 @@ func (fs *FileSystem) ListFileACLsWithGroupMembers(path string) ([]*types.IRODSA
 
 // ChangeACLs changes ACLs of a file or directory
 func (fs *FileSystem) ChangeACLs(path string, access types.IRODSAccessLevelType, userName string, zoneName string, recurse bool, adminFlag bool) error {
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -241,7 +241,7 @@ func (fs *FileSystem) ChangeACLs(path string, access types.IRODSAccessLevelType,
 
 // ChangeDirACLInheritance changes ACL inheritance of a directory
 func (fs *FileSystem) ChangeDirACLInheritance(path string, inherit bool, recurse bool, adminFlag bool) error {
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err

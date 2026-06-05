@@ -277,6 +277,24 @@ func (fs *FileSystem) StatFile(irodsPath string) (*Entry, error) {
 	return fs.getDataObject(irodsCorrectPath)
 }
 
+func (fs *FileSystem) GetDirStatistics(irodsPath string, recurse bool) (*DirStat, error) {
+	irodsCorrectPath := util.GetCorrectIRODSPath(irodsPath)
+
+	// we use ioSession to acquire connection as it can take a long time
+	conn, err := fs.ioSession.AcquireConnection(true)
+	if err != nil {
+		return nil, err
+	}
+	defer fs.ioSession.ReturnConnection(conn) //nolint
+
+	stat, err := irods_fs.GetCollectionStat(conn, irodsCorrectPath, recurse)
+	if err != nil {
+		return nil, err
+	}
+
+	return NewDirStat(irodsCorrectPath, recurse, stat), nil
+}
+
 // Exists checks file/directory existence
 func (fs *FileSystem) Exists(irodsPath string) bool {
 	entry, err := fs.Stat(irodsPath)
@@ -311,7 +329,7 @@ func (fs *FileSystem) List(irodsPath string) ([]*Entry, error) {
 }
 
 func (fs *FileSystem) SearchUnixWildcard(pathUnixWildcard string) ([]*Entry, error) {
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return nil, err
@@ -342,7 +360,7 @@ func (fs *FileSystem) SearchUnixWildcard(pathUnixWildcard string) ([]*Entry, err
 }
 
 func (fs *FileSystem) SearchDirUnixWildcard(pathUnixWildcard string) ([]*Entry, error) {
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return nil, err
@@ -364,7 +382,7 @@ func (fs *FileSystem) SearchDirUnixWildcard(pathUnixWildcard string) ([]*Entry, 
 }
 
 func (fs *FileSystem) SearchFileUnixWildcard(pathUnixWildcard string) ([]*Entry, error) {
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return nil, err
@@ -389,7 +407,7 @@ func (fs *FileSystem) SearchFileUnixWildcard(pathUnixWildcard string) ([]*Entry,
 func (fs *FileSystem) RemoveDir(irodsPath string, recurse bool, force bool) error {
 	irodsCorrectPath := util.GetCorrectIRODSPath(irodsPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -414,7 +432,7 @@ func (fs *FileSystem) RemoveDir(irodsPath string, recurse bool, force bool) erro
 func (fs *FileSystem) RemoveFile(irodsPath string, force bool) error {
 	irodsCorrectPath := util.GetCorrectIRODSPath(irodsPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -473,7 +491,7 @@ func (fs *FileSystem) RenameDirToDir(srcPath string, destPath string) error {
 	irodsSrcPath := util.GetCorrectIRODSPath(srcPath)
 	irodsDestPath := util.GetCorrectIRODSPath(destPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -524,7 +542,7 @@ func (fs *FileSystem) RenameFileToFile(srcPath string, destPath string) error {
 	irodsSrcPath := util.GetCorrectIRODSPath(srcPath)
 	irodsDestPath := util.GetCorrectIRODSPath(destPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -677,7 +695,7 @@ func (fs *FileSystem) postprocessRenameFileHandleForDir(handles []*FileHandle, c
 func (fs *FileSystem) MakeDir(irodsPath string, recurse bool) error {
 	irodsCorrectPath := util.GetCorrectIRODSPath(irodsPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -726,7 +744,7 @@ func (fs *FileSystem) CopyFileToFile(srcPath string, destPath string, force bool
 	irodsSrcPath := util.GetCorrectIRODSPath(srcPath)
 	irodsDestPath := util.GetCorrectIRODSPath(destPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -751,7 +769,7 @@ func (fs *FileSystem) TruncateFile(irodsPath string, size int64) error {
 		size = 0
 	}
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err
@@ -772,7 +790,7 @@ func (fs *FileSystem) TruncateFile(irodsPath string, size int64) error {
 func (fs *FileSystem) ReplicateFile(irodsPath string, resource string, update bool) error {
 	irodsCorrectPath := util.GetCorrectIRODSPath(irodsPath)
 
-	// we use ioSession to acquire connection as it make take a long time
+	// we use ioSession to acquire connection as it can take a long time
 	conn, err := fs.ioSession.AcquireConnection(true)
 	if err != nil {
 		return err

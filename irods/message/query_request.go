@@ -41,8 +41,20 @@ func NewIRODSMessageQueryRequest(maxRows int, continueIndex int, partialStartInd
 }
 
 // AddSelect adds a column to select
-func (msg *IRODSMessageQueryRequest) AddSelect(key common.ICATColumnNumber, val int) {
-	msg.Selects.Add(int(key), val)
+func (msg *IRODSMessageQueryRequest) AddSelect(key common.ICATColumnNumber) {
+	msg.Selects.Add(int(key), int(common.ICAT_SELECT_FUNC_NONE))
+}
+
+func (msg *IRODSMessageQueryRequest) AddSelectRaw(key common.ICATColumnNumber, val int) {
+	msg.Selects.Add(int(key), int(val))
+}
+
+func (msg *IRODSMessageQueryRequest) AddSelectWithSum(key common.ICATColumnNumber) {
+	msg.Selects.Add(int(key), int(common.ICAT_SELECT_FUNC_SUM))
+}
+
+func (msg *IRODSMessageQueryRequest) AddSelectWithCount(key common.ICATColumnNumber) {
+	msg.Selects.Add(int(key), int(common.ICAT_SELECT_FUNC_COUNT))
 }
 
 // AddCondition adds a condition

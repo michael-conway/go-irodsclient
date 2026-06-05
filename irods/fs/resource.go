@@ -23,16 +23,16 @@ func GetResource(conn *connection.IRODSConnection, name string) (*types.IRODSRes
 	defer conn.Unlock()
 
 	query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, 0, 0, 0)
-	query.AddSelect(common.ICAT_COLUMN_R_RESC_ID, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_RESC_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_ZONE_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_TYPE_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_CLASS_NAME, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_LOC, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_VAULT_PATH, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_RESC_CONTEXT, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_CREATE_TIME, 1)
-	query.AddSelect(common.ICAT_COLUMN_R_MODIFY_TIME, 1)
+	query.AddSelect(common.ICAT_COLUMN_R_RESC_ID)
+	query.AddSelect(common.ICAT_COLUMN_R_RESC_NAME)
+	query.AddSelect(common.ICAT_COLUMN_R_ZONE_NAME)
+	query.AddSelect(common.ICAT_COLUMN_R_TYPE_NAME)
+	query.AddSelect(common.ICAT_COLUMN_R_CLASS_NAME)
+	query.AddSelect(common.ICAT_COLUMN_R_LOC)
+	query.AddSelect(common.ICAT_COLUMN_R_VAULT_PATH)
+	query.AddSelect(common.ICAT_COLUMN_R_RESC_CONTEXT)
+	query.AddSelect(common.ICAT_COLUMN_R_CREATE_TIME)
+	query.AddSelect(common.ICAT_COLUMN_R_MODIFY_TIME)
 
 	query.AddEqualStringCondition(common.ICAT_COLUMN_R_RESC_NAME, name)
 
@@ -139,16 +139,16 @@ func ListResources(conn *connection.IRODSConnection) ([]*types.IRODSResource, er
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_R_RESC_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_RESC_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_ZONE_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_TYPE_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_CLASS_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_LOC, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_VAULT_PATH, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_RESC_CONTEXT, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_R_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_R_RESC_ID)
+		query.AddSelect(common.ICAT_COLUMN_R_RESC_NAME)
+		query.AddSelect(common.ICAT_COLUMN_R_ZONE_NAME)
+		query.AddSelect(common.ICAT_COLUMN_R_TYPE_NAME)
+		query.AddSelect(common.ICAT_COLUMN_R_CLASS_NAME)
+		query.AddSelect(common.ICAT_COLUMN_R_LOC)
+		query.AddSelect(common.ICAT_COLUMN_R_VAULT_PATH)
+		query.AddSelect(common.ICAT_COLUMN_R_RESC_CONTEXT)
+		query.AddSelect(common.ICAT_COLUMN_R_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_R_MODIFY_TIME)
 
 		queryResult := message.IRODSMessageQueryResponse{}
 		err := conn.Request(query, &queryResult, nil, conn.GetOperationTimeout())
@@ -341,12 +341,12 @@ func ListResourceMeta(conn *connection.IRODSConnection, name string) ([]*types.I
 	continueIndex := 0
 	for continueQuery {
 		query := message.NewIRODSMessageQueryRequest(common.MaxQueryRows, continueIndex, 0, 0)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_ID, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_NAME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_VALUE, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_UNITS, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_CREATE_TIME, 1)
-		query.AddSelect(common.ICAT_COLUMN_META_RESC_MODIFY_TIME, 1)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_ID)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_NAME)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_VALUE)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_ATTR_UNITS)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_CREATE_TIME)
+		query.AddSelect(common.ICAT_COLUMN_META_RESC_MODIFY_TIME)
 
 		query.AddEqualStringCondition(common.ICAT_COLUMN_R_RESC_NAME, name)
 
